@@ -1,0 +1,32 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "title": "iphone 6s",
+      "price": "500$",
+      "description": "old but fancy",
+      "image": "https://img.zoommer.ge/zoommer-images/thumbs/0085334_apple-iphone-6-32gb-grey_550.jpeg"
+    },
+    {
+      "id": 2,
+      "title": "iphone 7",
+      "price": "520$",
+      "description": "new iphone",
+      "image": "https://img.zoommer.ge/zoommer-images/thumbs/0085352_apple-iphone-7-32gb-rose-gold_550.jpeg"
+    },
+    {
+      "id": 3,
+      "title": "iphone 8",
+      "price": "570$",
+      "description": "new iphone",
+      "image": "https://d3d71ba2asa5oz.cloudfront.net/12003181/images/iphone8-w3.jpg"
+    },
+    {
+      "id": 4,
+      "title": "iphone X",
+      "price": "610$",
+      "description": "new iphone",
+      "image": "https://assets.swappie.com/cdn-cgi/image/width=600,height=600,fit=contain,format=auto/swappie-iphone-x-space-gray.png"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+.product-image {
+    object-fit: contain !important;
+}
+
+.footer {
+    height: 68px;
+    background-color: #1976d2;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+a {
+    text-decoration: none;
+}
