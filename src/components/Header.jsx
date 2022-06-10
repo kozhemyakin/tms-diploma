@@ -15,14 +15,28 @@ import AdbIcon from '@mui/icons-material/Adb';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-import { Routes, Route, Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
+import { Link } from 'react-router-dom';
+
+import Badge from '@mui/material/Badge';
+import { styled } from '@mui/material/styles';
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  '& .MuiBadge-badge': {
+    right: 10,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+  },
+}));
 
 const pages = ['Products', 'SALE'];
 const settings = ['Profile', 'Logout'];
 
 const ResponsiveAppBar = () => {
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -41,7 +55,16 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(null);
   };
 
+  const qty = useSelector((state) => state.qtyCounterSlice.qty)
+
+  const count = Object.values(qty).reduce((acc, i) => {
+    acc += i
+    return acc
+  }, 0)
+
+
   return (
+    
     <AppBar position="sticky">
       <Container maxWidth="lg">
         <Toolbar disableGutters>
@@ -174,11 +197,13 @@ const ResponsiveAppBar = () => {
             </Link>
 
             <Link to="/cart">
+            <StyledBadge badgeContent={count} color="secondary">
               <IconButton color="inherit" aria-label="shopping cart">
                 <ShoppingCartIcon 
                     sx={{ width: 30, height: 30 , fill: 'white'}}
                     />
               </IconButton>
+              </StyledBadge>
             </Link>
           </Box>
 
@@ -186,9 +211,6 @@ const ResponsiveAppBar = () => {
       </Container>
     </AppBar>
 
-    // <Routes>
-    //   <Route path="/product/${products.name}" element={<ProductPage />} />
-    // </Routes>
   );
 };
 export default ResponsiveAppBar;

@@ -11,27 +11,24 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import styles from '../style/styles.css'
+import React from 'react'; 
+
+import { useDispatch } from 'react-redux'
+import { addProductOnBadge } from '../features/product/qtyCounterSlice'
 
 import { Link } from 'react-router-dom'
-import { useParams } from 'react-router-dom';
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
 
 function Product() {
-  const [ data, setData ] = useState([]);
+  const dispatch = useDispatch();
+
+  const [ data, setData ] = useState([]);  
 
   const getProducts = async () => {
     const response = await axios.get('http://localhost:3001/products');
 
     return setData(response.data)
   }
-  
+
   const product = data.map( (item) => {
     return (
         <Grid key={item.id} value={item.id} item sm={6}>
@@ -56,7 +53,7 @@ function Product() {
                 </Link>
                 <CardActions>
                     <Button size="small">Add to wishlist</Button>
-                    <Button size="small">Add to cart</Button>
+                    <Button size="small" onClick={() => dispatch(addProductOnBadge(item.id))}>Add to cart</Button>
                 </CardActions>
                 </Card>
         </Grid>
@@ -66,14 +63,8 @@ function Product() {
   useEffect(() => {
     getProducts();
   }, [])
-
-  return ( 
-
-    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} columns={{ xs: 4, sm: 12, md: 18 }} sx={{ pt: 4, pb: 4 }}>
-      {product}
-    </Grid>
-
-  );
+  
+  return product
 }
 
 export default Product;
