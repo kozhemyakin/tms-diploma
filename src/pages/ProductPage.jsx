@@ -1,20 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { Container, Grid } from '@mui/material';
+import { Container, Grid, Button } from '@mui/material';
 
 import { styled } from '@mui/material/styles';
-import { Typography } from "@mui/material";
+import { Typography, CardMedia } from "@mui/material";
 import Paper from '@mui/material/Paper';
 import { useParams } from "react-router-dom";
 
-import { CardMedia } from "@mui/material";
 import axios from 'axios';
-import { useState } from "react";
-
-import { Button } from "@mui/material";
-
-
 
 import { useDispatch } from 'react-redux'
 import { addProductOnBadge } from '../features/product/qtyCounterSlice'

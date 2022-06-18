@@ -1,22 +1,12 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
+import { Menu , Container, Typography, IconButton, Toolbar, Box, AppBar, Button, MenuItem, Tooltip } from '@mui/material/';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import { useSelector } from 'react-redux';
-
 
 import { Link } from 'react-router-dom';
 
@@ -61,7 +51,6 @@ const ResponsiveAppBar = () => {
     acc += i
     return acc
   }, 0)
-
 
   return (
     
@@ -201,7 +190,7 @@ const ResponsiveAppBar = () => {
               <IconButton color="inherit" aria-label="shopping cart">
                 <ShoppingCartIcon 
                     sx={{ width: 30, height: 30 , fill: 'white'}}
-                    />
+                  />
               </IconButton>
               </StyledBadge>
             </Link>
