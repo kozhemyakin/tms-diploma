@@ -45,8 +45,7 @@ function Product() {
                     <CardMedia
                         className='product-image'
                         component="img"
-                        height="300"
-                        width="300"
+                        style={{width: "300px", height:"300px"}}
                         image={item.image}
                         alt={item.title}
                     />

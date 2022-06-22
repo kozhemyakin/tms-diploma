@@ -20,8 +20,13 @@ import styles from '../style/styles.css'
 import { Link } from 'react-router-dom';
 import { display } from '@mui/system';
 
+import { deleteProduct } from '../features/product/qtyCounterSlice'
+import { useDispatch } from 'react-redux';
+
 
 function ShoppingCart() {
+    const dispatch = useDispatch();
+
 
     const [products, setProducts] = useState([]);
     const cartItems = useSelector((state) => state.qtyCounterSlice.ids)
@@ -46,15 +51,17 @@ function ShoppingCart() {
                         <CardMedia
                             className='product-image'
                             component="img"
-                            height="300"
-                            width="300"
                             image={item.image}
                             alt={item.title}
+                            style={{width: "200px", height:"200px"}}
                         />
                     </Link>
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="div">
                             {item.title}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                            {item.description}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
                             {item.price}
@@ -68,7 +75,10 @@ function ShoppingCart() {
                         </CardContent>
                     
                     <CardActions>
-                        <Button size="small">Add to wishlist</Button>
+                        <Button size="small">counters</Button>
+                    </CardActions>
+                    <CardActions>
+                        <Button size="small" onClick={() => dispatch(deleteProduct(item.id))}>Delete</Button>
                     </CardActions>
                     </Card>
                 </Grid>
@@ -79,22 +89,47 @@ function ShoppingCart() {
         getProducts();
       }, [])
 
+
+    console.log(cartQty)
+    console.log(cartItems)
+
+
   return (
-    <>
+    <div>
+    {singleProductInCart[0] ? 
         <Grid container 
-        rowSpacing={1} 
-        columns={1} 
-        sx={{ pt: 4, pb: 4 }}
-        >
-          {singleProductInCart}
+            columns={1} 
+            sx={{ pt: 4, pb: 4 }}
+            style={{display:"flex"}}>
+                <Grid 
+                    style={{minWidth:"60%", maxWidth: "70%"}}
+
+                >
+                {singleProductInCart}
+                </Grid>
+                <Grid
+                    style={{minWidth:"30%"}}
+                    
+                >
+                    <Card
+                        style={{minHeight: "300px", display: "flex", flexDirection: "column", justifyContent: "space-between"}}
+                    >
+                        <Typography>
+                            <Typography gutterBottom variant="h5" component="div">
+                                Total
+                            </Typography>
+                            <Typography>
+                                (COUNT) products: (summ) $
+                            </Typography>
+                        </Typography>
+                        <CardActions>
+                            <Button size="medium">Proceed to checkout</Button>
+                    </CardActions>
+                    </Card>
+                </Grid>
         </Grid>
-        <Grid>
-            {
-                
-             
-            }
-        </Grid>
-    </>
+        : <p>There are no products yet</p>}
+    </div>
   );
 }
 
