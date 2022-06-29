@@ -22,8 +22,8 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-const pages = ['Products', 'SALE'];
-const settings = ['Profile', 'Logout'];
+const pages = ['contacts', 'sale'];
+const settings = ['profile', 'logout'];
 
 const ResponsiveAppBar = () => {
 
@@ -53,7 +53,6 @@ const ResponsiveAppBar = () => {
   }, 0)
 
   return (
-    
     <AppBar position="sticky">
       <Container maxWidth="lg">
         <Toolbar disableGutters>
@@ -75,8 +74,7 @@ const ResponsiveAppBar = () => {
             STORE_NAME
           </Typography>
           </Link>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }} >
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -131,18 +129,19 @@ const ResponsiveAppBar = () => {
           >
             STORE_NAME
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box className='navbar' sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, gap: '30px' }}>
             {pages.map((page) => (
-              <Button
+              <Link
                 key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                to={`/${page}`}
+                // key={page}
+                // onClick={handleCloseNavMenu}
+                // sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
-              </Button>
+                {page.toUpperCase()}
+              </Link>
             ))}
           </Box>
-
           <Box>
             <Tooltip title="Open settings">
               <IconButton color="inherit" onClick={handleOpenUserMenu}>
@@ -176,7 +175,6 @@ const ResponsiveAppBar = () => {
                 
               ))}
             </Menu>
-            
             <Link to="/wishlist">
               <IconButton color="inherit" aria-label="favorites">
                 <FavoriteIcon 
@@ -184,7 +182,6 @@ const ResponsiveAppBar = () => {
                 />
               </IconButton>
             </Link>
-
             <Link to="/cart">
             <StyledBadge badgeContent={count} color="secondary">
               <IconButton color="inherit" aria-label="shopping cart">
@@ -199,7 +196,6 @@ const ResponsiveAppBar = () => {
         </Toolbar>
       </Container>
     </AppBar>
-
   );
 };
 export default ResponsiveAppBar;

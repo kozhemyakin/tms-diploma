@@ -1,7 +1,7 @@
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
 import Card from '@mui/material/Card';
@@ -18,6 +18,8 @@ import { useDispatch } from 'react-redux'
 import { addProductOnBadge } from '../features/product/qtyCounterSlice'
 
 import { Link } from 'react-router-dom'
+
+import {ProductsContext} from '../contexts/ProductsContext'
 
 function Product() {
   const dispatch = useDispatch();
@@ -54,7 +56,7 @@ function Product() {
                         {item.title}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                        {item.price}
+                        {item.price}$
                         </Typography>
                     </CardContent>
                 </Link>
@@ -68,7 +70,6 @@ function Product() {
   });
 
   const paginate = pageNumber => setCurrentPage(pageNumber)
-
 
   useEffect(() => {
     getProducts();

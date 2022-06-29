@@ -2,6 +2,13 @@
     object-fit: contain !important;
 }
 
+.navbar a {
+    color: white !important;
+    font-weight: 600px;
+    font-size: 18px;
+    font-family: monospace;
+}
+
 .footer {
     height: 68px;
     background-color: #1976d2;
@@ -26,6 +33,43 @@ a {
 
 .pagination > li {
     padding: 3px;
-    border: 1px solid gray;
+    border: 1px solid rgba(128, 128, 128, 0.311);
     cursor: pointer;
+}
+
+.proceed-btn {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: rgb(38, 93, 196);
+    border-radius: 5px;
+    font-size: 32px !important;
+}
+
+.proceed-btn > * {
+    color: whitesmoke
+}
+
+/* .wrapper {
+    height: calc(100vh - 136px);
+} */
+
+.checkout-form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.disabled-checkbox {
+    cursor: not-allowed !important;
+}
+
+.checkout-btn {
+    background: rgb(38, 93, 196) !important;
+    border-radius: 5px !important;
+    font-size: 32px !important;
+    color: whitesmoke !important;
+    width: 300px;
+    
+
 }

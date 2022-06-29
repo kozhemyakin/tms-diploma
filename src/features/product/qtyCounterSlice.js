@@ -7,7 +7,7 @@ const initialState = {
 };
 
 export const qtyCounterSlice = createSlice({
-    name: 'productQtybadge',
+    name: 'productQtyBadge',
     initialState,
     reducers: {
         addProductOnBadge: (state, action) => {
@@ -19,17 +19,22 @@ export const qtyCounterSlice = createSlice({
             }
         },
         deleteProduct: (state, action) => {
-            if(state.qty[action.payload] !== 1) {
-                state.qty[action.payload] -= 1;
-            } else {
-                console.log('kekek')
                 let index = state.ids.indexOf(`${action.payload}`);
                 state.ids.splice(index, 1);
                 delete state.qty[`${action.payload}`];
-            }
-        }
+        },
+        increment: (state, action) => {
+            state.qty[action.payload] += 1; 
+        },
+        decrement: (state, action) => {
+            if (state.qty[action.payload] === 1) {
+                return
+              } else {
+                state.qty[action.payload] -= 1;
+              }
+        },
     }
 })
 
-export const { addProductOnBadge, deleteProduct } = qtyCounterSlice.actions;
+export const { addProductOnBadge, deleteProduct, increment, decrement } = qtyCounterSlice.actions;
 export default qtyCounterSlice.reducer;

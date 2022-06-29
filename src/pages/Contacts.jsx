@@ -3,16 +3,16 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { Container } from '@mui/material';
 
-function Profile() {
+function ContactsPage() {
     return (
         <>
             <Header />
             <Container>
-                Profile
+                Contacts
             </Container>
             <Footer />
         </>
     )
 }
 
-export default Profile;
+export default ContactsPage;

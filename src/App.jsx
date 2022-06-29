@@ -4,9 +4,10 @@ import Profile from './pages/Profile'
 import ProductPage from './pages/ProductPage'
 import Wishlist from './pages/Wishlist'
 import Cart from './pages/Cart'
-import Checkout from './pages/Checkout'
+import CheckoutPage from './pages/CheckoutPage'
 import NotFound from './pages/NotFound'
-
+import SalePage from './pages/SalePage'
+import ContactsPage from './pages/Contacts';
 
 import {Routes, Route, Link } from 'react-router-dom'
 
@@ -19,7 +20,9 @@ function App() {
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="/wishlist" element={<Wishlist />}></Route>
           <Route path="/cart" element={<Cart />}></Route>
-          <Route path="/checkout" element={<Checkout />}></Route>
+          <Route path="/checkout" element={<CheckoutPage />}></Route>
+          <Route path="/sale" element={<SalePage />}></Route>
+          <Route path="/contacts" element={<ContactsPage />}></Route>
         </Routes>
     </>
   );

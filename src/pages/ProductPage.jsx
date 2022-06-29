@@ -14,7 +14,6 @@ import { useDispatch } from 'react-redux'
 import { addProductOnBadge } from '../features/product/qtyCounterSlice'
 import { getProducts } from '../features/product/getProductsSlice'
 
-
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
