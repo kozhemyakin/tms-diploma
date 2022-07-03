@@ -4,47 +4,157 @@ import { FormLabel } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
-import Totals from './Totals';
 import Grid from '@mui/material/Grid';
+import { useNavigate } from 'react-router-dom';
 
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { Link } from 'react-router-dom';
 
-// import {checkoutTotalsContext, totals} from '../contexts/CheckoutTotals'
+import { useDispatch, useSelector } from 'react-redux'
+
+import Totals from './Totals';
+
+import {clearCart} from '../features/product/qtyCounterSlice'
 
 function Checkout() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    return (
-      <div className='wrapper'>
-        <FormLabel className='checkout-form'>
-          <TextField
-            label="First name"
-            variant="standard"
-            sx={{marginTop: "60px", marginBottom: "10px"}}
-          />
-          <TextField
-            label="Last name"
-            variant="standard"
-            sx={{margin: "10px 0"}}
-          />
-          <TextField
-            label="Email"
-            variant="standard"
-            sx={{margin: "10px 0"}}
-          />
-          <TextField
-            label="Shipping Address"
-            variant="standard"
-            sx={{margin: "10px 0"}}
-          />
-          <FormControlLabel className='disabled-checkbox' disabled control={<Checkbox defaultChecked sx={{margin: "20px 0"}} />} label="Pay by cash"/>
-          <Button size="medium" className='checkout-btn' sx={{margin: "10px 0"}} >Place Order</Button>
-        </FormLabel>
-        <Grid
-                style={{minWidth:"30%"}}
-            >
+  let count = 0;
+  let totalPrice = 0;
 
-            </Grid>
-      </div>
-    );
+  const [products, setProducts] = useState([]);
+
+  const cartItems = useSelector((state) => state.qtyCounterSlice.ids);
+  const cartQty = useSelector((state) => state.qtyCounterSlice.qty);
+
+  console.log('cartItems', cartItems)
+  console.log('cartQty', cartQty)
+  const getProducts = async () => {
+      const response = await axios.get('http://localhost:3001/products');
+  
+      return setProducts(response.data)
+  }
+
+  const cartProducts = products.filter((item) => cartItems.includes(item.id));
+  
+  const singleProductInCart = cartProducts.map((item) => {
+      const singleProductsPrice = item.price * cartQty[item.id];
+
+      count += cartQty[item.id];
+      totalPrice += item.price * cartQty[item.id];
+      
+      if (cartQty.hasOwnProperty(item.id)) {
+          return (
+              <Grid key={item.id} value={item.id} item sm={6}>
+                  <Card style={{display:"flex"}}>
+                  <Link to={`/product/${item.id}`}>
+                      <CardMedia
+                          className='product-image'
+                          component="img"
+                          image={item.image}
+                          alt={item.title}
+                          style={{width: "200px", height:"200px"}}
+                      />
+                  </Link>
+                      <CardContent>
+                          <Typography gutterBottom variant="h5" component="div">
+                              {item.title}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                              {item.description}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                              {item.price}$
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                              {cartQty[item.id]}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary" className='s-product-price'>
+                              {singleProductsPrice}
+                          </Typography>
+                      </CardContent>
+                  </Card>
+              </Grid>
+      )}
+  })
+
+  useEffect(() => {
+    getProducts();
+  }, [])
+
+  const [orderData, setOrderData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    shippingAddress: ''
+  })
+
+  const onPlaceOrder = (fieldName, value) => {
+    setOrderData({
+      ...orderData,
+      [fieldName]: value,
+    })
+  }
+
+  const placeOrder = async () => {
+    const res = await axios.post('http://localhost:3001/orders', {
+      firstName: orderData.firstName,
+      lastName: orderData.lastName,
+      user_email: orderData.email,
+      shippingAddress: orderData.shippingAddress,
+      order_id: Math.floor(Math.random() * 16000),
+      products_ids: cartItems,
+      cartTotal: totalPrice
+    });
+
+    dispatch(clearCart());
+
+    navigate('/')
   }
   
-  export default Checkout;
+  return (
+    <div className='checkout-wrapper'>
+      <FormLabel className='checkout-form'>
+        <TextField
+          value={orderData.firstName}
+          onChange={(event) => onPlaceOrder('firstName', event.target.value)}       
+          placeholder="First name"
+          variant="standard"
+          sx={{marginTop: "60px", marginBottom: "10px"}}
+        />
+        <TextField
+          value={orderData.lastName}
+          onChange={(event) => onPlaceOrder('lastName', event.target.value)}       
+          placeholder="Last name"
+          variant="standard"
+          sx={{margin: "10px 0"}}
+        />
+        <TextField
+          value={orderData.email}
+          onChange={(event) => onPlaceOrder('email', event.target.value)}       
+          placeholder="Email"
+          variant="standard"
+          sx={{margin: "10px 0"}}
+        />
+        <TextField
+          value={orderData.shippingAddress}   
+          onChange={(event) => onPlaceOrder('shippingAddress', event.target.value)}       
+          placeholder="Shipping Address"
+          variant="standard"
+          sx={{margin: "10px 0"}}
+        />
+        <FormControlLabel className='disabled-checkbox' disabled control={<Checkbox defaultChecked sx={{margin: "20px 0"}} />} label="Pay by cash"/>
+        <Button size="medium" className='checkout-btn' sx={{margin: "10px 0"}} onClick={placeOrder}>Place Order</Button>
+      </FormLabel>
+      <div className='checkout-totals'><Totals count={count} totalPrice={totalPrice} className='checkout-totals'/></div>
+    </div>
+  );
+}
+  
+export default Checkout;

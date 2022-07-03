@@ -46,6 +46,7 @@ const ResponsiveAppBar = () => {
   };
 
   const qty = useSelector((state) => state.qtyCounterSlice.qty)
+  const wishlistItems = useSelector((state) => state.qtyCounterSlice.ws_products)
 
   const count = Object.values(qty).reduce((acc, i) => {
     acc += i
@@ -176,19 +177,21 @@ const ResponsiveAppBar = () => {
               ))}
             </Menu>
             <Link to="/wishlist">
-              <IconButton color="inherit" aria-label="favorites">
-                <FavoriteIcon 
-                  sx={{ width: 30, height: 30 , fill: 'white'}}
-                />
-              </IconButton>
-            </Link>
-            <Link to="/cart">
-            <StyledBadge badgeContent={count} color="secondary">
-              <IconButton color="inherit" aria-label="shopping cart">
-                <ShoppingCartIcon 
+              <StyledBadge badgeContent={wishlistItems.length} color="secondary">
+                <IconButton color="inherit" aria-label="favorites">
+                  <FavoriteIcon 
                     sx={{ width: 30, height: 30 , fill: 'white'}}
                   />
-              </IconButton>
+                </IconButton>
+              </StyledBadge>
+            </Link>
+            <Link to="/cart">
+              <StyledBadge badgeContent={count} color="secondary">
+                <IconButton color="inherit" aria-label="shopping cart">
+                  <ShoppingCartIcon 
+                      sx={{ width: 30, height: 30 , fill: 'white'}}
+                    />
+                </IconButton>
               </StyledBadge>
             </Link>
           </Box>

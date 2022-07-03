@@ -8,12 +8,11 @@ import CheckoutPage from './pages/CheckoutPage'
 import NotFound from './pages/NotFound'
 import SalePage from './pages/SalePage'
 import ContactsPage from './pages/Contacts';
-
 import {Routes, Route, Link } from 'react-router-dom'
 
 function App() {
   return (
-    <>
+    <div style={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
         <Routes>
           <Route path="/" element={<Homepage />}></Route>
           <Route path="/product/:id" element={<ProductPage />}></Route>
@@ -24,7 +23,7 @@ function App() {
           <Route path="/sale" element={<SalePage />}></Route>
           <Route path="/contacts" element={<ContactsPage />}></Route>
         </Routes>
-    </>
+    </div>
   );
 }
 

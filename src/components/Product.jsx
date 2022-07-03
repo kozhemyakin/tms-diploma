@@ -1,7 +1,5 @@
-import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
 import Card from '@mui/material/Card';
@@ -10,16 +8,11 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import styles from '../style/styles.css'
 import React from 'react'; 
 import Pagination from './Pagination';
-
 import { useDispatch } from 'react-redux'
-import { addProductOnBadge } from '../features/product/qtyCounterSlice'
-
+import { addProductOnBadge, addToWishlist } from '../features/product/qtyCounterSlice'
 import { Link } from 'react-router-dom'
-
-import {ProductsContext} from '../contexts/ProductsContext'
 
 function Product() {
   const dispatch = useDispatch();
@@ -61,7 +54,7 @@ function Product() {
                     </CardContent>
                 </Link>
                 <CardActions>
-                    <Button size="small">Add to wishlist</Button>
+                    <Button size="small" onClick={() => dispatch(addToWishlist(item.id))}>Add to wishlist</Button>
                     <Button size="small" onClick={() => dispatch(addProductOnBadge(item.id))}>Add to cart</Button>
                 </CardActions>
                 </Card>

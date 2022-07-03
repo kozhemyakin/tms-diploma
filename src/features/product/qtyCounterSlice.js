@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     qty: {
     },
-    ids: []
+    ids: [],
+    ws_products: []
 };
 
 export const qtyCounterSlice = createSlice({
@@ -33,8 +34,17 @@ export const qtyCounterSlice = createSlice({
                 state.qty[action.payload] -= 1;
               }
         },
-    }
-})
+        clearCart: (state, action) => {
+            state.qty = {};
+        },
+        addToWishlist : (state, action) => {
+            if(!state.ws_products.includes(action.payload)) {
+                state.ws_products.push(action.payload)
+            } else {
+                alert('Product is already in the wishlist')
+            }
+        },
+}})
 
-export const { addProductOnBadge, deleteProduct, increment, decrement } = qtyCounterSlice.actions;
+export const { addProductOnBadge, deleteProduct, increment, decrement, clearCart, addToWishlist } = qtyCounterSlice.actions;
 export default qtyCounterSlice.reducer;

@@ -41,7 +41,6 @@ function ShoppingCart() {
         count += cartQty[item.id];
         totalPrice += item.price * cartQty[item.id];
         
-
         if (cartQty.hasOwnProperty(item.id)) {
             return (
                 <Grid key={item.id} value={item.id} item sm={6}>
@@ -72,12 +71,10 @@ function ShoppingCart() {
                                 {singleProductsPrice}
                             </Typography>
                         </CardContent>
-                    
                     <CardActions>
                     <Button size="small" onClick={() => dispatch(decrement(item.id))}> - </Button>
                             {cartQty[item.id]}
                         <Button size="small" onClick={() => dispatch(increment(item.id))}> + </Button>
-                        
                     </CardActions>
                     <CardActions>
                         <Button size="small" onClick={() => dispatch(deleteProduct(item.id))}>Delete</Button>
@@ -104,6 +101,11 @@ function ShoppingCart() {
             </Grid>
             <Grid style={{minWidth:"30%"}}>
                 <Totals count={count} totalPrice={totalPrice} />
+                <CardActions className='btn proceed-btn'>
+                    <Link to='/checkout'>
+                        Proceed to checkout
+                    </Link>
+                </CardActions>
             </Grid>
         </Grid>
         : <p>There are no products yet</p>}

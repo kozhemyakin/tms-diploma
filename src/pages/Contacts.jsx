@@ -7,9 +7,9 @@ function ContactsPage() {
     return (
         <>
             <Header />
-            <Container>
-                Contacts
-            </Container>
+                <Container>
+                    Contacts
+                </Container>
             <Footer />
         </>
     )
