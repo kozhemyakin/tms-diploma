@@ -61,15 +61,10 @@ function ShoppingCart() {
                             <Typography variant="body2" color="text.secondary">
                                 {item.description}
                             </Typography>
-                            <Typography variant="body2" color="text.secondary">
+                            <Typography variant="body2" color="text.secondary" sx={{fontSize: '18px'}}>
                                 {item.price}$
                             </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {cartQty[item.id]}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary" className='s-product-price'>
-                                {singleProductsPrice}
-                            </Typography>
+    
                         </CardContent>
                     <CardActions>
                     <Button size="small" onClick={() => dispatch(decrement(item.id))}> - </Button>
@@ -90,25 +85,24 @@ function ShoppingCart() {
 
   return (
     <div>
-    {singleProductInCart[0] ? 
-        <Grid container 
-            columns={1} 
-            sx={{ pt: 4, pb: 4 }}
-            style={{display:"flex"}}>
-
-            <Grid style={{minWidth:"60%", maxWidth: "70%"}}>
-                {singleProductInCart}
+        {singleProductInCart[0] ? 
+            <Grid container 
+                columns={1} 
+                sx={{ pt: 4, pb: 4 }}
+                style={{display:"flex"}}>
+                <Grid style={{minWidth:"40%", maxWidth: "70%"}}>
+                    {singleProductInCart}
+                </Grid>
+                <Grid style={{minWidth:"30%"}}>
+                    <Totals count={count} totalPrice={totalPrice} />
+                    <CardActions className='proceed-btn'>
+                        <Link to='/checkout'>
+                            Proceed to checkout
+                        </Link>
+                    </CardActions>
+                </Grid>
             </Grid>
-            <Grid style={{minWidth:"30%"}}>
-                <Totals count={count} totalPrice={totalPrice} />
-                <CardActions className='btn proceed-btn'>
-                    <Link to='/checkout'>
-                        Proceed to checkout
-                    </Link>
-                </CardActions>
-            </Grid>
-        </Grid>
-        : <p>There are no products yet</p>}
+            : <p>There are no products yet</p>}
     </div>
   );
 }

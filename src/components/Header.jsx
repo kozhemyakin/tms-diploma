@@ -135,9 +135,6 @@ const ResponsiveAppBar = () => {
               <Link
                 key={page}
                 to={`/${page}`}
-                // key={page}
-                // onClick={handleCloseNavMenu}
-                // sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page.toUpperCase()}
               </Link>

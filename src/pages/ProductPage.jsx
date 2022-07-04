@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { Container, Grid, Button } from '@mui/material';
-
+import { Container, Grid, Button, Typography, CardMedia, Paper, Card, formHelperTextClasses} from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Typography, CardMedia } from "@mui/material";
-import Paper from '@mui/material/Paper';
 import { useParams } from "react-router-dom";
-import Card from '@mui/material/Card';
-
 import axios from 'axios';
-
 import { useDispatch } from 'react-redux'
-import { addProductOnBadge } from '../features/product/qtyCounterSlice'
+import { addProductOnBadge, addToWishlist } from '../features/product/qtyCounterSlice'
 import TextField from '@mui/material/TextField';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -22,8 +16,6 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
-
-    
 
 function ProductPage() {
   const [comment, setComment] = React.useState('');
@@ -54,12 +46,14 @@ function ProductPage() {
 
   const addComment = async () => {
     const response = await axios.post('http://localhost:3001/comments', {
+      comment_id: Math.floor(Math.random() * 1600000),
       product_id: id,
       userName: 'guest',
       text: comment,
     });
 
     getComments();
+    setComment('')
   }
 
   const getComments = async () => {
@@ -77,43 +71,47 @@ function ProductPage() {
                     <Grid item xs={4}>
                         <Item>
                             <CardMedia
-                            className='product-image'
-                            component="img"
-                            height="300"
-                            width="300"
-                            image={productPhoto.image}
-                            alt={productPhoto.title}
+                              className='product-image'
+                              component="img"
+                              height="300"
+                              width="300"
+                              image={productPhoto.image}
+                              alt={productPhoto.title}
                             />
                         </Item>
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid item sx={{display: 'flex', flexDirection: "column", }}>
                         <Item>
-                            <Typography variant="body2" color="text.secondary">{productPhoto.title}</Typography>
-                            <Typography variant="body2" color="text.secondary">{productPhoto.price}</Typography>
-                            <Typography variant="body2" color="text.secondary">{productPhoto.description}</Typography>
+                            <Typography sx={{height: '60px', fontSize: '34px'}} variant="body2" color="text.secondary">{productPhoto.title}</Typography>
+                            <Typography sx={{height: '60px', fontSize: '32px'}} variant="body2" color="text.secondary">{productPhoto.price}$</Typography>
+                            <Typography sx={{height: '100px', maxWidth: '600px'}} variant="body2" color="text.secondary">{productPhoto.description}</Typography>
                         </Item>
-                        <Button size="small">Add to wishlist</Button>
-                        <Button size="small" onClick={() => dispatch(addProductOnBadge(productPhoto.id))}>Add to cart</Button>
-                        
+                        <div style={{display: 'flex', flexDirection: 'row', gap: '200px', margin: '15px'}}>
+                          <Button size="small" onClick={() => dispatch(addToWishlist(productPhoto.id))} className="btn btn-add-to-wishlist">Add to Wishlist</Button>
+                          <Button size="small" onClick={() => dispatch(addProductOnBadge(productPhoto.id))} className="btn btn-add-to-cart">Add to cart</Button>
+                        </div>
                     </Grid>
-                    <TextField
-                            id="outlined-multiline-flexible"
-                            placeholder="Leave a comment here"
-                            multiline
-                            maxRows={4}
-                            value={comment}
-                            onChange={handleChange}
-                    />
-                    <Button size="small" onClick={addComment}>Send comment</Button>
-                    {comments.map((item) => {
-                      return (
-                        <Card className="comment-card">
-                          {item.userName}
-                          {item.text}
-                        </Card>
-                      )
-                    })}
-                    
+                    <Grid className='comments-container'>
+                      <div className="comments-actions">
+                        <TextField
+                          className="comments-textfield"
+                          id="outlined-multiline-flexible"
+                          placeholder="Leave a comment here"
+                          multiline
+                          maxRows={4}
+                          value={comment}
+                          onChange={handleChange}
+                        />
+                        <Button size="small" onClick={addComment}>Send comment</Button>
+                      </div>
+                      {comments.map((item) => {
+                        return (
+                          <Card className="comment-card" key={item.comment_id}>
+                            {item.text}
+                          </Card>
+                        )
+                      })}
+                    </Grid>
                 </Grid>
                 )}
             </Container>

@@ -13,7 +13,7 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from "react-redux";
-import{ addProductOnBadge} from '../features/product/qtyCounterSlice'
+import{ addProductOnBadge, deleteFromWishlist} from '../features/product/qtyCounterSlice'
 
 function Wishlist() {
     const dispatch = useDispatch();
@@ -30,8 +30,8 @@ function Wishlist() {
     useEffect(() => {
         getProducts();
     }, [])
-
-    const product = data.filter((item) => wishlistItems.includes(item.id)).map( (item) => {
+  
+    const product = data.filter((item) => wishlistItems.includes(item.id)).map((item) => {
         return (
             <Grid key={item.id} value={item.id} item sm={6}>
                     <Card>
@@ -45,14 +45,15 @@ function Wishlist() {
                         />
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="div">
-                            {item.title}
+                                {item.title}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                            {item.price}$
+                                {item.price}$
                             </Typography>
                         </CardContent>
                     </Link>
                     <CardActions>
+                        <Button size="small" onClick={() => dispatch(deleteFromWishlist(item.id))}>Delete from Wishlist</Button>
                         <Button size="small" onClick={() => dispatch(addProductOnBadge(item.id))}>Add to cart</Button>
                     </CardActions>
                     </Card>
@@ -60,11 +61,18 @@ function Wishlist() {
         );
       });
 
-    return (
+      return (
         <>
             <Header />
                 <Container>
-                    {product}
+                        <Grid container 
+                            rowSpacing={1} 
+                            columnSpacing={{ xs: 1, sm: 2, md: 3 }} 
+                            columns={{ xs: 4, sm: 12, md: 18 }} 
+                            sx={{ pt: 4, pb: 4 }}
+                        >
+                            {product[0] ? product : <p>There are no products yet</p>}
+                        </Grid>
                 </Container>
             <Footer />
         </>

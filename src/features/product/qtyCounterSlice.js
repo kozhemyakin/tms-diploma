@@ -4,7 +4,7 @@ const initialState = {
     qty: {
     },
     ids: [],
-    ws_products: []
+    ws_products: [],
 };
 
 export const qtyCounterSlice = createSlice({
@@ -37,14 +37,18 @@ export const qtyCounterSlice = createSlice({
         clearCart: (state, action) => {
             state.qty = {};
         },
-        addToWishlist : (state, action) => {
+        addToWishlist: (state, action) => {
             if(!state.ws_products.includes(action.payload)) {
                 state.ws_products.push(action.payload)
             } else {
                 alert('Product is already in the wishlist')
             }
         },
+        deleteFromWishlist: (state, action) => {
+            let ind = state.ws_products.indexOf(`${action.payload}`);
+            state.ws_products.splice(ind, 1);
+        },
 }})
 
-export const { addProductOnBadge, deleteProduct, increment, decrement, clearCart, addToWishlist } = qtyCounterSlice.actions;
+export const { addProductOnBadge, deleteProduct, increment, decrement, clearCart, addToWishlist, deleteFromWishlist } = qtyCounterSlice.actions;
 export default qtyCounterSlice.reducer;

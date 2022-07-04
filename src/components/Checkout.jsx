@@ -33,8 +33,6 @@ function Checkout() {
   const cartItems = useSelector((state) => state.qtyCounterSlice.ids);
   const cartQty = useSelector((state) => state.qtyCounterSlice.qty);
 
-  console.log('cartItems', cartItems)
-  console.log('cartQty', cartQty)
   const getProducts = async () => {
       const response = await axios.get('http://localhost:3001/products');
   
@@ -116,6 +114,8 @@ function Checkout() {
     dispatch(clearCart());
 
     navigate('/')
+
+    alert('Order has successfully been placed')
   }
   
   return (
@@ -150,7 +150,7 @@ function Checkout() {
           sx={{margin: "10px 0"}}
         />
         <FormControlLabel className='disabled-checkbox' disabled control={<Checkbox defaultChecked sx={{margin: "20px 0"}} />} label="Pay by cash"/>
-        <Button size="medium" className='checkout-btn' sx={{margin: "10px 0"}} onClick={placeOrder}>Place Order</Button>
+        <Button size="medium" className='checkout-btn' sx={{marginTop: "50px"}} onClick={placeOrder}>Place Order</Button>
       </FormLabel>
       <div className='checkout-totals'><Totals count={count} totalPrice={totalPrice} className='checkout-totals'/></div>
     </div>
