@@ -6,7 +6,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { useNavigate } from 'react-router-dom';
-
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Card from '@mui/material/Card';
@@ -86,6 +85,32 @@ function Checkout() {
     getProducts();
   }, [])
 
+  const [email, setEmail] = useState('');
+  const [emailDirty, setEmailDirty] = useState(false);
+  const [emailError, setEmailError] = useState('Email cannot be empty');
+  
+  const blurHandler = (e) => {
+    switch (e.target.name) {
+      case 'email':
+        setEmailDirty(true)
+        break;
+    }
+  }
+  
+  const emailHandler = (e) => {
+    setEmail(e)
+
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    if (!re.test(String(e).toLowerCase())) {
+      setEmailError('Incorrect email')
+      if (e.length === 0) {
+        setEmailError('Email cannot be empty')
+      }
+    } else {
+      setEmailError('')
+    }
+  }
+
   const [orderData, setOrderData] = useState({
     firstName: '',
     lastName: '',
@@ -94,6 +119,10 @@ function Checkout() {
   })
 
   const onPlaceOrder = (fieldName, value) => {
+    if (fieldName === 'email') {
+      emailHandler(value)
+    }
+
     setOrderData({
       ...orderData,
       [fieldName]: value,
@@ -113,11 +142,11 @@ function Checkout() {
 
     dispatch(clearCart());
 
-    navigate('/')
+    navigate('/');
 
-    alert('Order has successfully been placed')
+    alert('Order has successfully been placed');
   }
-  
+ 
   return (
     <div className='checkout-wrapper'>
       <FormLabel className='checkout-form'>
@@ -136,12 +165,16 @@ function Checkout() {
           sx={{margin: "10px 0"}}
         />
         <TextField
-          value={orderData.email}
+          value={email}
+          onBlur={e => blurHandler(e)}      
+          name='email'
+          type='text'
           onChange={(event) => onPlaceOrder('email', event.target.value)}       
           placeholder="Email"
           variant="standard"
           sx={{margin: "10px 0"}}
         />
+        {(emailDirty && emailError) && <div style={{color: 'red', fontSize: '14px'}}>{emailError}</div>}
         <TextField
           value={orderData.shippingAddress}   
           onChange={(event) => onPlaceOrder('shippingAddress', event.target.value)}       
@@ -150,7 +183,7 @@ function Checkout() {
           sx={{margin: "10px 0"}}
         />
         <FormControlLabel className='disabled-checkbox' disabled control={<Checkbox defaultChecked sx={{margin: "20px 0"}} />} label="Pay by cash"/>
-        <Button size="medium" className='checkout-btn' sx={{marginTop: "50px"}} onClick={placeOrder}>Place Order</Button>
+        <Button size="medium" disabled={emailError.length} className='checkout-btn' sx={{marginTop: "50px"}} onClick={placeOrder}>Place Order</Button>
       </FormLabel>
       <div className='checkout-totals'><Totals count={count} totalPrice={totalPrice} className='checkout-totals'/></div>
     </div>
