@@ -36,6 +36,7 @@ export const qtyCounterSlice = createSlice({
         },
         clearCart: (state, action) => {
             state.qty = {};
+            state.ids = [];
         },
         addToWishlist: (state, action) => {
             if(!state.ws_products.includes(action.payload)) {

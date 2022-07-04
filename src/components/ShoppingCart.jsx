@@ -10,11 +10,9 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-
 import { deleteProduct } from '../features/product/qtyCounterSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import {increment,decrement} from '../features/product/qtyCounterSlice'
-
 import Totals from './Totals';
 
 function ShoppingCart() {
@@ -36,8 +34,6 @@ function ShoppingCart() {
     const cartProducts = products.filter((item) => cartItems.includes(item.id));
     
     const singleProductInCart = cartProducts.map((item) => {
-        const singleProductsPrice = item.price * cartQty[item.id];
-
         count += cartQty[item.id];
         totalPrice += item.price * cartQty[item.id];
         
