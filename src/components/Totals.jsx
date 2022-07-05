@@ -4,7 +4,6 @@ import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 
 function Totals({count, totalPrice}) {
-
     return (
         <Grid>
             <Card

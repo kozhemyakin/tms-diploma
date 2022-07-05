@@ -13,11 +13,8 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-
 import { useDispatch, useSelector } from 'react-redux'
-
 import Totals from './Totals';
-
 import {clearCart} from '../features/product/qtyCounterSlice'
 
 function Checkout() {
@@ -86,19 +83,33 @@ function Checkout() {
   }, [])
 
   const [email, setEmail] = useState('');
+  const [shipping, setShipping] = useState('');
+  const [name, setName] = useState('');
   const [emailDirty, setEmailDirty] = useState(false);
+  const [shippingDirty, setShippingDirty] = useState(false);
+  const [nameDirty, setNameDirty] = useState(false);
   const [emailError, setEmailError] = useState('Email cannot be empty');
+  const [shippingError, setShippingError] = useState('Shipping address cannot be empty');
+  const [nameError, setNameError] = useState('Name cannot be empty');
   
   const blurHandler = (e) => {
     switch (e.target.name) {
       case 'email':
         setEmailDirty(true)
         break;
+      case 'shipping':
+        setShippingDirty(true)
+        break;
+      case 'lastName':
+        setNameDirty(true)
+        break;
+      default:
+        break;
     }
   }
   
   const emailHandler = (e) => {
-    setEmail(e)
+    setEmail(e);
 
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     if (!re.test(String(e).toLowerCase())) {
@@ -111,16 +122,40 @@ function Checkout() {
     }
   }
 
+  const shippingHandler = (e) => {
+    setShipping(e);
+
+    if (e.length < 8) {
+      setShippingError('Check your address again')
+    } else {
+      setShippingError('')
+    }
+  }
+
+  const nameHandler = (e) => {
+    setName(e);
+
+    if (e.length < 1) {
+      setNameError('Check your name again')
+    } else {
+      setNameError('')
+    }
+  }
+
   const [orderData, setOrderData] = useState({
     firstName: '',
     lastName: '',
     email: '',
-    shippingAddress: ''
+    shipping: ''
   })
 
   const onPlaceOrder = (fieldName, value) => {
     if (fieldName === 'email') {
       emailHandler(value)
+    } else if (fieldName === 'shipping') {
+      shippingHandler(value)
+    } else if (fieldName === 'lastName') {
+      nameHandler(value)
     }
 
     setOrderData({
@@ -134,7 +169,7 @@ function Checkout() {
       firstName: orderData.firstName,
       lastName: orderData.lastName,
       user_email: orderData.email,
-      shippingAddress: orderData.shippingAddress,
+      shipping: orderData.shipping,
       order_id: Math.floor(Math.random() * 16000),
       products_ids: cartItems,
       cartTotal: totalPrice
@@ -152,18 +187,22 @@ function Checkout() {
       <FormLabel className='checkout-form'>
         <TextField
           value={orderData.firstName}
+          onBlur={e => blurHandler(e)}      
           onChange={(event) => onPlaceOrder('firstName', event.target.value)}       
           placeholder="First name"
           variant="standard"
           sx={{marginTop: "60px", marginBottom: "10px"}}
         />
         <TextField
-          value={orderData.lastName}
+          value={name}
+          onBlur={e => blurHandler(e)}      
+          name='lastName'
           onChange={(event) => onPlaceOrder('lastName', event.target.value)}       
           placeholder="Last name"
           variant="standard"
           sx={{margin: "10px 0"}}
         />
+        {(nameDirty && nameError) && <div style={{color: 'red', fontSize: '14px'}}>{nameError}</div>}
         <TextField
           value={email}
           onBlur={e => blurHandler(e)}      
@@ -176,14 +215,17 @@ function Checkout() {
         />
         {(emailDirty && emailError) && <div style={{color: 'red', fontSize: '14px'}}>{emailError}</div>}
         <TextField
-          value={orderData.shippingAddress}   
-          onChange={(event) => onPlaceOrder('shippingAddress', event.target.value)}       
+          value={shipping}
+          onBlur={e => blurHandler(e)}      
+          name='shipping'
+          onChange={(event) => onPlaceOrder('shipping', event.target.value)}       
           placeholder="Shipping Address"
           variant="standard"
           sx={{margin: "10px 0"}}
         />
+        {(shippingDirty && shippingError) && <div style={{color: 'red', fontSize: '14px'}}>{shippingError}</div>}
         <FormControlLabel className='disabled-checkbox' disabled control={<Checkbox defaultChecked sx={{margin: "20px 0"}} />} label="Pay by cash"/>
-        <Button size="medium" disabled={emailError.length} className='checkout-btn' sx={{marginTop: "50px"}} onClick={placeOrder}>Place Order</Button>
+        <Button size="medium" disabled={emailError.length || shippingError.length || nameError.length} className='checkout-btn' sx={{marginTop: "50px"}} onClick={placeOrder}>Place Order</Button>
       </FormLabel>
       <div className='checkout-totals'><Totals count={count} totalPrice={totalPrice} className='checkout-totals'/></div>
     </div>

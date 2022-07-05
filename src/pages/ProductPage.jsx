@@ -62,62 +62,62 @@ function ProductPage() {
     return setComments(response.data.filter(item => item.product_id=== id))
   }
 
-    return (
-        <>
-            <Header />
-            <Container>
-                {productPhoto && (
-                <Grid container spacing={0} sx={{ pt: 4, pb: 4 }}>
-                    <Grid item xs={4}>
-                        <Item>
-                            <CardMedia
-                              className='product-image'
-                              component="img"
-                              height="300"
-                              width="300"
-                              image={productPhoto.image}
-                              alt={productPhoto.title}
-                            />
-                        </Item>
-                    </Grid>
-                    <Grid item sx={{display: 'flex', flexDirection: "column", }}>
-                        <Item>
-                            <Typography sx={{height: '60px', fontSize: '34px'}} variant="body2" color="text.secondary">{productPhoto.title}</Typography>
-                            <Typography sx={{height: '60px', fontSize: '32px'}} variant="body2" color="text.secondary">{productPhoto.price}$</Typography>
-                            <Typography sx={{height: '100px', maxWidth: '600px'}} variant="body2" color="text.secondary">{productPhoto.description}</Typography>
-                        </Item>
-                        <div style={{display: 'flex', flexDirection: 'row', gap: '200px', margin: '15px'}}>
-                          <Button size="small" onClick={() => dispatch(addToWishlist(productPhoto.id))} className="btn btn-add-to-wishlist">Add to Wishlist</Button>
-                          <Button size="small" onClick={() => dispatch(addProductOnBadge(productPhoto.id))} className="btn btn-add-to-cart">Add to cart</Button>
-                        </div>
-                    </Grid>
-                    <Grid className='comments-container'>
-                      <div className="comments-actions">
-                        <TextField
-                          className="comments-textfield"
-                          id="outlined-multiline-flexible"
-                          placeholder="Leave a comment here"
-                          multiline
-                          maxRows={4}
-                          value={comment}
-                          onChange={handleChange}
-                        />
-                        <Button size="small" onClick={addComment}>Send comment</Button>
+  return (
+      <>
+          <Header />
+          <Container>
+              {productPhoto && (
+              <Grid container spacing={0} sx={{ pt: 4, pb: 4 }}>
+                  <Grid item xs={4}>
+                      <Item>
+                          <CardMedia
+                            className='product-image'
+                            component="img"
+                            height="300"
+                            width="300"
+                            image={productPhoto.image}
+                            alt={productPhoto.title}
+                          />
+                      </Item>
+                  </Grid>
+                  <Grid item sx={{display: 'flex', flexDirection: "column", }}>
+                      <Item>
+                          <Typography sx={{height: '60px', fontSize: '34px'}} variant="body2" color="text.secondary">{productPhoto.title}</Typography>
+                          <Typography sx={{height: '60px', fontSize: '32px'}} variant="body2" color="text.secondary">{productPhoto.price}$</Typography>
+                          <Typography sx={{height: '100px', maxWidth: '600px'}} variant="body2" color="text.secondary">{productPhoto.description}</Typography>
+                      </Item>
+                      <div style={{display: 'flex', flexDirection: 'row', gap: '200px', margin: '15px'}}>
+                        <Button size="small" onClick={() => dispatch(addToWishlist(productPhoto.id))} className="btn btn-add-to-wishlist">Add to Wishlist</Button>
+                        <Button size="small" onClick={() => dispatch(addProductOnBadge(productPhoto.id))} className="btn btn-add-to-cart">Add to cart</Button>
                       </div>
-                      {comments.map((item) => {
-                        return (
-                          <Card className="comment-card" key={item.comment_id}>
-                            {item.text}
-                          </Card>
-                        )
-                      })}
-                    </Grid>
-                </Grid>
-                )}
-            </Container>
-            <Footer />
-        </>
-    )
+                  </Grid>
+                  <Grid className='comments-container'>
+                    <div className="comments-actions">
+                      <TextField
+                        className="comments-textfield"
+                        id="outlined-multiline-flexible"
+                        placeholder="Leave a comment here"
+                        multiline
+                        maxRows={4}
+                        value={comment}
+                        onChange={handleChange}
+                      />
+                      <Button size="small" onClick={addComment}>Send comment</Button>
+                    </div>
+                    {comments.map((item) => {
+                      return (
+                        <Card className="comment-card" key={item.comment_id}>
+                          {item.text}
+                        </Card>
+                      )
+                    })}
+                  </Grid>
+              </Grid>
+              )}
+          </Container>
+          <Footer />
+      </>
+  )
 }
 
 export default ProductPage;

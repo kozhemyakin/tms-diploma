@@ -5,11 +5,8 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AdbIcon from '@mui/icons-material/Adb';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-
 import { useSelector } from 'react-redux';
-
 import { Link } from 'react-router-dom';
-
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 

@@ -7,9 +7,9 @@ function SalePage() {
     return (
         <>
             <Header />
-            <Container>
-                Sale
-            </Container>
+                <Container>
+                    Sale
+                </Container>
             <Footer />
         </>
     )

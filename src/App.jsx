@@ -5,10 +5,9 @@ import ProductPage from './pages/ProductPage'
 import Wishlist from './pages/Wishlist'
 import Cart from './pages/Cart'
 import CheckoutPage from './pages/CheckoutPage'
-import NotFound from './pages/NotFound'
 import SalePage from './pages/SalePage'
 import ContactsPage from './pages/Contacts';
-import {Routes, Route, Link } from 'react-router-dom'
+import {Routes, Route } from 'react-router-dom'
 
 function App() {
   return (
