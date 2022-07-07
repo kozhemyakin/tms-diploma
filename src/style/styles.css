@@ -27,17 +27,27 @@ a {
 }
 
 .pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    height: 36px;
+    margin: 20px 8px;
+}
+
+.pagination-numbers {
     list-style: none;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
-    font-size: 24px;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
 }
 
-.pagination > li {
+.pagination-numbers > li {
     padding: 3px;
     border: 1px solid rgba(128, 128, 128, 0.311);
     cursor: pointer;
+    font-size: 24px;
 }
 
 .proceed-btn {

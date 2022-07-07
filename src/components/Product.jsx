@@ -27,11 +27,30 @@ function Product() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 9;
-
   const lastProductPage = currentPage * productsPerPage;
   const firstProductIndex = lastProductPage - productsPerPage;
   const currentProduct = data.slice(firstProductIndex, lastProductPage);
 
+  const paginate = pageNumber => setCurrentPage(pageNumber);
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1)
+    return currentPage;
+    } else {
+      return;  
+    }  
+  }
+
+  const nextPage = () => {
+    if (currentPage < currentProduct.length) {
+      setCurrentPage(currentPage + 1)
+    return currentPage;
+    } else {
+      return;  
+    }  
+  }
+  
   const product = currentProduct.map( (item) => {
     return (
         <Grid key={item.id} value={item.id} item sm={6}>
@@ -62,8 +81,6 @@ function Product() {
     );
   });
 
-  const paginate = pageNumber => setCurrentPage(pageNumber)
-
   useEffect(() => {
     getProducts();
   }, [])
@@ -80,6 +97,8 @@ function Product() {
       </Grid>
 
       <Pagination 
+        prevPage={prevPage}
+        nextPage={nextPage}
         productsPerPage={productsPerPage} 
         totalProducts={data.length} 
         paginate={paginate}
