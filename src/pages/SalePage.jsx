@@ -1,16 +1,12 @@
 import React from "react";
-import Header from '../components/Header'
-import Footer from '../components/Footer'
-import { Container } from '@mui/material';
+import Layout from "./Layout";
 
 function SalePage() {
     return (
         <>
-            <Header />
-                <Container>
-                    Sale
-                </Container>
-            <Footer />
+            <Layout>
+                On Sale
+            </Layout>
         </>
     )
 }

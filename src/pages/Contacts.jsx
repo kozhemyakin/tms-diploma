@@ -1,16 +1,12 @@
 import React from "react";
-import Header from '../components/Header'
-import Footer from '../components/Footer'
-import { Container } from '@mui/material';
+import Layout from './Layout';
 
 function ContactsPage() {
     return (
         <>
-            <Header />
-                <Container>
-                    Contacts
-                </Container>
-            <Footer />
+            <Layout>
+                Contacts
+            </Layout>
         </>
     )
 }

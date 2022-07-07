@@ -32,6 +32,11 @@ a {
     justify-content: end;
     height: 36px;
     margin: 20px 8px;
+    cursor: pointer;
+}
+
+.pagination > button {
+    cursor: pointer;
 }
 
 .pagination-numbers {

@@ -43,7 +43,7 @@ function Product() {
   }
 
   const nextPage = () => {
-    if (currentPage < currentProduct.length) {
+    if (currentPage < currentProduct.length - 1) {
       setCurrentPage(currentPage + 1)
     return currentPage;
     } else {
@@ -99,6 +99,8 @@ function Product() {
       <Pagination 
         prevPage={prevPage}
         nextPage={nextPage}
+        currentPage={currentPage}
+        currentProduct={currentProduct}
         productsPerPage={productsPerPage} 
         totalProducts={data.length} 
         paginate={paginate}
