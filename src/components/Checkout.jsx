@@ -16,24 +16,17 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import Totals from './Totals';
 import {clearCart} from '../features/product/qtyCounterSlice'
+import { getProducts } from '../features/product/productsSlice';
 
 function Checkout() {
   const dispatch = useDispatch();
+  const products = useSelector((state) => state.product.products);  
   const navigate = useNavigate();
-
-  let count = 0;
-  let totalPrice = 0;
-
-  const [products, setProducts] = useState([]);
-
   const cartItems = useSelector((state) => state.qtyCounterSlice.ids);
   const cartQty = useSelector((state) => state.qtyCounterSlice.qty);
 
-  const getProducts = async () => {
-      const response = await axios.get('http://localhost:3001/products');
-  
-      return setProducts(response.data)
-  }
+  let count = 0;
+  let totalPrice = 0;
 
   const cartProducts = products.filter((item) => cartItems.includes(item.id));
   
@@ -79,8 +72,9 @@ function Checkout() {
   })
 
   useEffect(() => {
-    getProducts();
-  }, [])
+    dispatch(getProducts())
+
+  }, [dispatch])
 
   const [email, setEmail] = useState('');
   const [shipping, setShipping] = useState('');

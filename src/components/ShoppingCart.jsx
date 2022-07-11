@@ -1,7 +1,6 @@
 
 import React from 'react';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -14,24 +13,17 @@ import { deleteProduct } from '../features/product/qtyCounterSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import {increment,decrement} from '../features/product/qtyCounterSlice'
 import Totals from './Totals';
+import { getProducts } from '../features/product/productsSlice';
 
 function ShoppingCart() {
     const dispatch = useDispatch();
+    const products = useSelector((state) => state.product.products);
+    const cartItems = useSelector((state) => state.qtyCounterSlice.ids);
+    const cartQty = useSelector((state) => state.qtyCounterSlice.qty);
+    const cartProducts = products.filter((item) => cartItems.includes(item.id));
 
     let count = 0;
     let totalPrice = 0;
-
-    const [products, setProducts] = useState([]);
-    const cartItems = useSelector((state) => state.qtyCounterSlice.ids);
-    const cartQty = useSelector((state) => state.qtyCounterSlice.qty);
-
-    const getProducts = async () => {
-        const response = await axios.get('http://localhost:3001/products');
-    
-        return setProducts(response.data)
-    }
-
-    const cartProducts = products.filter((item) => cartItems.includes(item.id));
     
     const singleProductInCart = cartProducts.map((item) => {
         count += cartQty[item.id];
@@ -76,8 +68,9 @@ function ShoppingCart() {
     })
 
     useEffect(() => {
-        getProducts();
-      }, [])
+        dispatch(getProducts())
+    
+      }, [dispatch])
 
   return (
     <div>

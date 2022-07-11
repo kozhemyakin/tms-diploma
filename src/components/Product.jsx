@@ -1,6 +1,5 @@
 import Grid from '@mui/material/Grid';
 import { useEffect } from 'react';
-import axios from 'axios';
 import { useState } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -10,26 +9,21 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import React from 'react'; 
 import Pagination from './Pagination';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addProductOnBadge, addToWishlist } from '../features/product/qtyCounterSlice'
+import { getProducts } from '../features/product/productsSlice';
 import { Link } from 'react-router-dom'
 
 function Product() {
   const dispatch = useDispatch();
 
-  const [ data, setData ] = useState([]);  
-
-  const getProducts = async () => {
-    const response = await axios.get('http://localhost:3001/products');
-
-    return setData(response.data)
-  }
+  const products = useSelector((state) => state.product.products);
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 9;
   const lastProductPage = currentPage * productsPerPage;
   const firstProductIndex = lastProductPage - productsPerPage;
-  const currentProduct = data.slice(firstProductIndex, lastProductPage);
+  const currentProduct = products.slice(firstProductIndex, lastProductPage);
 
   const paginate = pageNumber => setCurrentPage(pageNumber);
 
@@ -53,6 +47,7 @@ function Product() {
   
   const product = currentProduct.map( (item) => {
     return (
+      
         <Grid key={item.id} value={item.id} item sm={6}>
                 <Card>
                 <Link to={`/product/${item.id}`}>
@@ -82,12 +77,13 @@ function Product() {
   });
 
   useEffect(() => {
-    getProducts();
-  }, [])
+    dispatch(getProducts())
+
+  }, [dispatch])
   
   return (
     <>
-      <Grid container 
+    <Grid container 
         rowSpacing={1} 
         columnSpacing={{ xs: 1, sm: 2, md: 3 }} 
         columns={{ xs: 4, sm: 12, md: 18 }} 
@@ -102,7 +98,7 @@ function Product() {
         currentPage={currentPage}
         currentProduct={currentProduct}
         productsPerPage={productsPerPage} 
-        totalProducts={data.length} 
+        totalProducts={products.length} 
         paginate={paginate}
       />
     </>
